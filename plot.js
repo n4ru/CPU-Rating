@@ -64,19 +64,24 @@ filter = (cpu) => {
     options = {
         "AMD": true,
         "Intel": true,
-        "exactcores": true,
+        "exactcores": false,
         "name": null,
-        "cores": 4,
+        "cores": 0,
         "threads": 0,
         "samples": 1,
-        "onlymobile": true,
-        "overclockable": true
+        //"onlymobile": true, // true excludes non-mobile
+        "overclockable": true // false excludes overclocking, true includes both
     }
 
     ocTable = ["K", "X", "HK", "XM"];
     ocCPU = ["G3258", "Athlon"];
     ocSocket = ["AM3+", "FM2+", "AM4"];
     mobileCPU = ["M", "U", "H", "HK", "XM", "G", "QE", "QM", "Y", "HQ", "ME", "UE", "LE"];
+    coreMobilePrefix = ["T"];
+    coreMobileModels = ["Q9000", "Q9100", "X7800", "X7900", "X9000", "X9100", "QX9300"]
+
+    intelRegex = /[0-9]{3,4}([A-Z]{1,2})/
+    coreMobileRegex = /Core2?[ Duo]? ([A-Z]{1,2})[0-9]{3,4}/
 
     if (cpu.CPU.includes("AMD") && !options.AMD) return false;
     if ((cpu.CPU.includes("Intel") || cpu.CPU.includes("Celeron")) && !options.Intel) return false;
@@ -88,13 +93,12 @@ filter = (cpu) => {
         for (chip in ocCPU) {
             if (cpu.CPU.includes(ocCPU[chip])) return false;
         }
-        if (options.Intel && (/[0-9]{3,4}([A-Z]{1,2})/.test(cpu.CPU) && ocTable.includes(cpu.CPU.match(/[0-9]{3,4}([A-Z]{1,2})/)[1]))) return false;
+        if (options.Intel && (intelRegex.test(cpu.CPU) && ocTable.includes(cpu.CPU.match(intelRegex)[1]))) return false;
         if (options.AMD && (ocSocket.includes(cpu.socket) || cpu.CPU.includes("Athlon"))) return false;
     }
-    if (options.onlymobile) {
-        if (!/[0-9]{3,4}([A-Z]{1,2})/.test(cpu.CPU) || !mobileCPU.includes(cpu.CPU.match(/[0-9]{3,4}([A-Z]{1,2})/)[1])) return false;
-        if (/[0-9]{3,4}([A-Z]{1,2})/.test(cpu.CPU) && (cpu.CPU.includes("Ryzen") && cpu.CPU.includes("G"))) return false;
-        if (/[0-9]{3,4}([A-Z]{1,2})/.test(cpu.CPU) && (cpu.CPU.includes("Ryzen") && cpu.CPU.includes("G"))) return false;
+    if (options.onlymobile && !coreMobileRegex.test(cpu.CPU)) {
+        if (!intelRegex.test(cpu.CPU) || !mobileCPU.includes(cpu.CPU.match(intelRegex)[1])) return false;
+        if (intelRegex.test(cpu.CPU) && (cpu.CPU.includes("Ryzen") && cpu.CPU.includes("G"))) return false;
     }
     return true;
 }
