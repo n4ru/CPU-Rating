@@ -176,6 +176,24 @@ Object.keys(dataz).forEach(idx => {
         //source.x.push(CPU.score);
         source.text.push(CPU.CPU);
     }
+    // Calculate regressions
+    //let regress = layout.xaxis.range.map;
+    //while (regress <= layout.xaxis.range[1]) {
+    //    console.log(regress);
+    //    avgIntel = data['1']['x']
+    //        .map((point, id) => regress == data['1'].y[id])
+    //        .reduce((a, b) => a + b, 0) / data['1']['x'].length;
+    //    avgAMD = data['2']['x']
+    //        .map((point, id) => regress == data['2'].y[id])
+    //        .reduce((a, b) => a + b, 0) / data['2']['x'].length;
+    //    data['intel']['x'].push(avgIntel);
+    //    data['amd']['x'].push(avgAMD);
+    //    data['intel']['y'].push(regress);
+    //    data['amd']['y'].push(regress);
+    //    data['intel']['text'].push(regress);
+    //    data['amd']['text'].push(regress);
+    //    regress += 0.05
+    //}
 })
 
 Plotly.newPlot('myDiv', Object.keys(data).map(key => data[key]), layout);
