@@ -87,11 +87,11 @@ const data = {
 filter = (cpu) => {
     options = {
         "AMD": true,
-        "colorByVendor": true,
         "Intel": true,
-        "exactcores": true,
+        "colorByVendor": true,
+        "exactcores": false,
         "name": null,
-        "cores": 4,
+        "cores": 0,
         "threads": 0,
         "samples": 100,
         "onlymobile": false, // true excludes non-mobile
