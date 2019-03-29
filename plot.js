@@ -165,11 +165,11 @@ Object.keys(dataz).forEach(idx => {
         if (!options.colorByVendor) {
             source = data[CPU.samples.toString().length]
         } else {
-            data['1'].name = "AMD";
-            data['2'].name = "Intel";
-            if (CPU.CPU.includes("AMD")) source = data['1'];
+            data['2'].name = "AMD";
+            data['1'].name = "Intel";
+            if (CPU.CPU.includes("AMD")) source = data['2'];
             //else if (CPU.CPU.includes("Intel") || CPU.CPU.includes("Celeron")) source = data['2']
-            else source = data['2']
+            else source = data['1']
         }
         source.x.push(parseFloat(parseInt(CPU.launch.substr(0, 4)) + (parseFloat("0." + CPU.launch.substr(-1, 1)) * 2.5)));
         source.y.push(CPU.index);
